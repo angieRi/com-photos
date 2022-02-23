@@ -35,10 +35,17 @@ class PhotoController extends Controller
                 return $exception instanceof ConnectionException;
             })->post('https://jsonplaceholder.typicode.com/photos')->status();
 
-            return response()->json([
-                'statu' =>$reconexion,
-                'message' =>'Internal Server Error.'
-            ]);
+            if($reconexion < 200 & $reconexion > 202){
+                return response()->json([
+                    'statu' =>$reconexion,
+                    'message' =>'Internal Server Error.'
+                ]);
+            }else{
+                return response()->json([
+                    'statu' =>$reconexion,
+                    'message' =>'Server connected.'
+                ]);
+            }
         }else{
             return response()->json([
                 'statu' =>$statu,
@@ -48,7 +55,7 @@ class PhotoController extends Controller
     }
 
     /**
-     * Guarda en la base de datos los valos obtenidos de la Api fotos
+     * Guarda en la base de datos los valores obtenidos de la Api fotos
      * @return \Illuminate\Http\JsonResponse
      */
     public function saveItems()
